@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rethinking the High-Rise Waste Chute — A Design Investigation</title>
+<meta name="description" content="A design research case study into food waste and accessibility in high-rise apartment buildings, reimagining the building waste chute as an accessible, food-separating interface." />
+<meta property="og:title" content="Rethinking the High-Rise Waste Chute" />
+<meta property="og:description" content="A design investigation into food waste and accessibility in apartment buildings." />
+<meta property="og:type" content="article" />
+<link rel="icon" href="lewi-crimson.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --crimson:#bd0d3b; --crimson-dark:#9e0a31;
+    --bg:#ffffff; --surface:#faf8f6; --surface-2:#f3efe9;
+    --ink:#1c1c1e; --ink-soft:#55525a; --ink-faint:#8e8a92;
+    --line:#e7e2da;
+    --font:'Aleo',Georgia,serif;
+    --measure:64ch; --radius:6px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--font); font-size:1.05rem; line-height:1.72; font-weight:400;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  h1,h2,h3{font-family:var(--font);font-weight:700;line-height:1.12;letter-spacing:-.01em}
+  h1{font-size:clamp(2.5rem,5.5vw,4.2rem);margin:0 0 .3em}
+  h2{font-size:clamp(1.7rem,3.4vw,2.5rem);margin:0 0 .5em}
+  h3{font-size:1.25rem;margin:0 0 .3em}
+  p{margin:0 0 1.1em;color:var(--ink-soft)}
+  a{color:var(--crimson);text-underline-offset:3px}
+  a:hover{color:var(--crimson-dark)}
+  strong{color:var(--ink);font-weight:700}
+  .wrap{width:min(100% - 2.5rem,1080px);margin-inline:auto}
+  .prose{max-width:var(--measure)}
+  .eyebrow{font-size:.74rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--crimson);margin:0 0 1rem}
+
+  /* ===== crimson masthead (header + hero) ===== */
+  .masthead{background:var(--crimson);color:#fff}
+  .masthead a{color:#fff}
+  header.site{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 0}
+  .brand-lock{display:flex;align-items:center;gap:1.1rem;text-decoration:none;outline:none;-webkit-tap-highlight-color:transparent}
+  .brand-lock:focus{outline:none}
+  .brand-lock:focus-visible{outline:2px solid rgba(255,255,255,.7);outline-offset:4px;border-radius:4px}
+  .brand-lock img.lewi{height:36px;width:auto;display:block;border:0}
+  .brand-lock img.tcc{height:17px;width:auto;display:block;border:0;opacity:.95}
+  .brand-lock .divider{width:1px;height:30px;background:rgba(255,255,255,.45)}
+  header.site nav{display:flex;gap:1.6rem}
+  header.site nav a{font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;text-decoration:none;opacity:.85}
+  header.site nav a:hover{opacity:1}
+  @media(max-width:680px){header.site nav{display:none}.brand-lock img.lewi{height:30px}}
+
+  .hero{padding:5rem 0 6rem}
+  .hero .eyebrow{color:rgba(255,255,255,.8)}
+  .hero h1{color:#fff}
+  .hero .standfirst{font-size:1.4rem;line-height:1.5;color:#fff;max-width:30ch;font-weight:400}
+  .hero .lede{max-width:54ch;margin-top:1.4rem;color:rgba(255,255,255,.9)}
+  .meta{display:flex;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.8rem 2.2rem;margin-top:3rem;padding-top:1.6rem;border-top:1px solid rgba(255,255,255,.28)}
+  .meta dt{font-size:.66rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:.4rem}
+  .meta dd{margin:0;font-size:.95rem;line-height:1.5;color:#fff}
+
+  /* ===== light body sections ===== */
+  section.block{padding:4.5rem 0;border-top:1px solid var(--line)}
+  section.block:first-of-type{border-top:none}
+  .phase-tag{font-size:.74rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--crimson);margin-bottom:.8rem}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+  @media(max-width:820px){.twocol{grid-template-columns:1fr;gap:2rem}}
+
+  figure{margin:2rem 0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  figure.plain{background:none;border:none}
+  figure img{display:block;width:100%;height:auto}
+  figure.sketch{background:#faf8f6}
+  figure.diagram{background:#fff}
+  figure.photo-cap{max-width:340px}
+  figure.photo-cap.wide{max-width:430px}
+  figcaption{font-size:.8rem;color:var(--ink-faint);padding:.7rem .9rem;line-height:1.45}
+  figcaption .src{color:var(--ink-soft)}
+
+  .evidence{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:2rem 0}
+  @media(max-width:680px){.evidence{grid-template-columns:1fr 1fr}}
+  .evidence figure{margin:0}
+  .evidence img{aspect-ratio:1/1;object-fit:cover}
+
+  .pull{font-size:clamp(1.4rem,2.6vw,1.9rem);line-height:1.35;font-weight:400;color:var(--ink);border-left:3px solid var(--crimson);padding-left:1.4rem;margin:2.5rem 0;max-width:32ch}
+
+  .features{list-style:none;padding:0;margin:1.5rem 0;display:grid;gap:1.2rem}
+  .features li{padding-left:1.4rem;position:relative}
+  .features li::before{content:'';position:absolute;left:0;top:.62em;width:8px;height:8px;border-radius:2px;background:var(--crimson)}
+  .features b{display:block;color:var(--ink);font-weight:700;margin-bottom:.15rem}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin:2.5rem 0}
+  @media(max-width:680px){.stats{grid-template-columns:1fr}}
+  .stat{border-top:2px solid var(--crimson);padding-top:.9rem}
+  .stat .n{font-size:2.4rem;line-height:1;color:var(--crimson);font-weight:700}
+  .stat .l{font-size:.85rem;color:var(--ink-soft);margin-top:.5rem}
+
+  .next{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:2.5rem}
+  .badge{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--crimson);padding:.3rem .6rem;border-radius:3px;margin-bottom:1rem}
+
+  .refs{font-size:.85rem;color:var(--ink-soft);columns:2;column-gap:2.5rem}
+  @media(max-width:680px){.refs{columns:1}}
+  .refs p{margin:0 0 .8rem;break-inside:avoid}
+  .refs h3{columns:1;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:1.5rem 0 .8rem;font-weight:700}
+
+  footer.site{border-top:1px solid var(--line);padding:2.5rem 0 4rem;font-size:.85rem;color:var(--ink-faint)}
+  footer.site a{color:var(--ink-soft);text-decoration:none}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+
+<a id="top"></a>
+<div class="masthead">
+  <div class="wrap">
+    <header class="site">
+      <a href="#top" class="brand-lock" aria-label="Lewi Hirvela — Trash Can Co.">
+        <img class="lewi" src="lewi-white.png" alt="Lewi" />
+        <span class="divider"></span>
+        <img class="tcc" src="logo-white.svg" alt="Trash Can Co." />
+      </a>
+      <nav>
+        <a href="#problem">Research</a>
+        <a href="#concept">Concept</a>
+        <a href="#viability">Viability</a>
+        <a href="#next">What's next</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <p class="eyebrow reveal">Design research · Interaction design</p>
+      <h1 class="reveal">Rethinking the<br>high-rise waste chute</h1>
+      <p class="standfirst reveal">A design investigation into food waste and accessibility in apartment buildings.</p>
+      <p class="lede reveal">Most apartment towers move rubbish the same way they did fifty years ago: a single chute, often broken, rarely cleaned, and impossible to use well if you have a pram or a walker. This project asks what happens when you treat that chute as a designed interface rather than a hole in the wall.</p>
+      <dl class="meta reveal">
+        <div><dt>Role</dt><dd>Research &amp; concept design</dd></div>
+        <div><dt>Unit</dt><dd>Creative Entrepreneur <br>Applied Design<br>University of Tasmania</dd></div>
+        <div><dt>Status</dt><dd>High Distinction, 2024<br>Continuing to a Graduate Diploma in Interaction Design,<br> University of Queensland, 2026</dd></div>
+      </dl>
+    </section>
+  </div>
+</div>
+
+<!-- ORIGIN -->
+<div class="wrap">
+  <section class="block" id="origin">
+    <p class="phase-tag reveal">Where it started</p>
+    <div class="twocol">
+      <div class="reveal">
+        <h2>It started in my own building</h2>
+        <p>I live in a high-rise where the waste chutes are a daily frustration. In my own experience I do not even use them; they are often disgusting, and not properly maintained or cleaned. When something does go wrong, the whole system simply stops.</p>
+        <p>In September 2024 a notice went up in our lift: the chute had been blocked for days because rubbish was stuck inside it, and residents were asked to carry waste down to the ground floor instead. That letter, and the broken chutes behind it, became the starting point for this project.</p>
+        <p class="pull">A piece of building infrastructure that thousands of people share every day, and almost no one has designed for the person actually standing in front of it.</p>
+      </div>
+      <div class="reveal">
+        <figure class="plain photo-cap">
+          <img src="assets/letter.jpg" alt="A notice posted in a residential lift explaining that the waste chute is blocked and asking residents to take rubbish to the ground floor." />
+          <figcaption>A notice posted in our building lift, September 2024: the chute blocked, residents asked to carry waste down. <span class="src">Photograph by Lewi Hirvela.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PROBLEM -->
+<div class="wrap">
+  <section class="block" id="problem">
+    <p class="phase-tag reveal">Phase 1 · Understanding the problem</p>
+    <h2 class="reveal">A shared system that quietly fails</h2>
+    <div class="twocol">
+      <div class="reveal prose">
+        <p>Building waste chutes are designed to streamline disposal in multi-storey homes, but they are frequently underused or broken, and they are hardest of all on people with accessibility needs. The World Bank notes that waste disposal systems often fail to meet residents' needs, and that food waste in particular is mishandled where access to proper disposal is poor (World Bank, 2018).</p>
+        <p>Food waste is a large and growing share of the problem. The United Nations Environment Programme and the Food and Agriculture Organization report that food waste accounts for roughly 30% of urban waste, with a significant portion coming from residential buildings (UNEP, 2021; FAO, 2021). When the chute is blocked or unpleasant, people leave waste on the ground or put recyclables in the wrong stream, and the problem compounds.</p>
+      </div>
+      <div class="reveal">
+        <div class="evidence">
+          <figure>
+            <img src="assets/chute-blocked.jpg" alt="A waste chute room with rubbish bags and loose waste piled on the floor." />
+            <figcaption>Blocked chute, waste left on the floor. <span class="src">Source: u/UnknownError90, Reddit.</span></figcaption>
+          </figure>
+          <figure>
+            <img src="assets/chute-broken.jpg" alt="A broken bin chute hopper with a crude repair held together by red tape." />
+            <figcaption>A bin chute patched rather than repaired. <span class="src">Source: A Handy Man (2022).</span></figcaption>
+          </figure>
+          <figure>
+            <img src="assets/letter.jpg" alt="The building manager's notice about the blocked chute." />
+            <figcaption>The blocked-chute notice. <span class="src">Photograph by Lewi Hirvela (2024).</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats reveal">
+      <div class="stat"><div class="n">~30%</div><div class="l">of urban waste is food waste, much of it from homes (UNEP, 2021; FAO, 2021)</div></div>
+      <div class="stat"><div class="n">20%</div><div class="l">of waste chutes in older residential buildings are broken or non-functional (Cummings, 2023)</div></div>
+      <div class="stat"><div class="n">+15%</div><div class="l">rise in urban food waste in 2022, with large portions left unrecycled (UNEP, 2022)</div></div>
+    </div>
+  </section>
+</div>
+
+<!-- ACCESSIBILITY -->
+<div class="wrap">
+  <section class="block" id="access">
+    <p class="phase-tag reveal">Phase 1 · Who it affects</p>
+    <h2 class="reveal">Designing for the person at the chute</h2>
+    <div class="prose reveal">
+      <p>People with prams, walkers or disabilities consistently report difficulty reaching bins and chutes (Institute for Urban Development, 2022). Heavy doors, awkward heights and poor lighting turn a thirty-second task into a barrier. Accessibility standards already point the way: disposal points should sit lower and wider, with good lighting, and can use buttons or sensors so they open without force or touch (U.S. Department of Justice, 2010; U.S. Access Board, n.d.).</p>
+      <p>Framing the chute as an accessibility problem, rather than a plumbing one, reframes the whole design brief. The question stops being "how do we unblock it" and becomes "how do we make disposal effortless, hygienic and correct for everyone in the building".</p>
+    </div>
+  </section>
+</div>
+
+<!-- PRECEDENTS -->
+<div class="wrap">
+  <section class="block" id="precedents">
+    <p class="phase-tag reveal">Phase 1 · Precedents</p>
+    <h2 class="reveal">What others have tried</h2>
+    <div class="twocol">
+      <div class="reveal prose">
+        <h3>Automated waste collection</h3>
+        <p>Cities such as Stockholm and Barcelona use pneumatic systems that move waste through underground tubes to a central facility, cutting truck traffic, emissions and noise while improving cleanliness and separation at the source. The upfront cost is high, but as a long-term piece of urban infrastructure it points at what "designed" waste movement can look like (The Renewables, 2023).</p>
+      </div>
+      <div class="reveal prose">
+        <h3>Seoul's food-waste recycling</h3>
+        <p>Seoul runs a high-tech food-waste programme using RFID-based bins that measure how much each household throws away, encouraging people to reduce waste and turning what is collected into compost and biogas. It is one of the clearest examples of designing for behaviour, not just collection (Broom, 2019).</p>
+        <figure>
+          <img src="assets/seoul.jpg" alt="High-tech RFID food-waste recycling machines on a Seoul street." />
+          <figcaption>RFID food-waste recycling machines in Seoul. <span class="src">Source: Wikimedia.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+    <p class="pull reveal">None of these treat the chute itself as an accessible, food-separating interface. That gap is exactly what this project explores.</p>
+  </section>
+</div>
+
+<!-- IDEATION -->
+<div class="wrap">
+  <section class="block" id="ideation">
+    <p class="phase-tag reveal">Phase 2 · Ideation</p>
+    <h2 class="reveal">Working through the questions</h2>
+    <div class="prose reveal">
+      <p>Three questions drove the ideation. How could a chute be improved for food waste and waste in general? What materials and modifications would make it usable for people with mobility issues? And how could it actively encourage correct separation?</p>
+      <p>Early thinking pointed toward lighter, eco-friendly materials such as recycled aluminium and bamboo so the door is easier to open; lower and wider openings with buttons or sensors; brighter, better-lit rooms; and a smart chute that detects the type of waste and routes it to the right stream with no need to touch anything.</p>
+    </div>
+    <figure class="sketch reveal">
+      <img src="assets/sketches.jpg" alt="Eight hand-drawn concept sketches: lighter aluminium and bamboo doors, red and green auto buttons for general and recycling, automatic sensors, and wider, lower, brighter chute openings." />
+      <figcaption>Concept sketches exploring materials, touch-free controls and a wider, lower, brighter opening. <span class="src">Drawings by Lewi Hirvela.</span></figcaption>
+    </figure>
+  </section>
+</div>
+
+<!-- CONCEPT -->
+<div class="wrap">
+  <section class="block" id="concept">
+    <p class="phase-tag reveal">Phase 2 · The concept</p>
+    <h2 class="reveal">A chute redesigned around its user</h2>
+    <div class="twocol">
+      <div class="reveal">
+        <p class="prose">The concept repurposes the existing chute rather than ripping it out, layering three changes onto infrastructure buildings already have.</p>
+        <ul class="features">
+          <li><b>Accessibility</b>Adjustable chute extensions bring the opening to a height and reach that works for users with limited mobility, including those with prams or walkers.</li>
+          <li><b>Sustainability</b>The chute separates food waste from other streams, feeding it into a composting system instead of landfill.</li>
+          <li><b>Hands-free by default</b>A motion-sensor sliding door opens without contact, keeping disposal hygienic and effortless.</li>
+        </ul>
+        <p class="prose">Materials matter to the brief: early prototypes assumed plastic, but later iterations moved to recycled aluminium and bamboo, chosen for strength and low environmental impact while staying light enough to open easily.</p>
+      </div>
+      <div class="reveal">
+        <figure class="plain photo-cap wide">
+          <img src="assets/foodwaste-lift.jpg" alt="Bags of food waste and rubbish piled beside a lift in a Brisbane apartment building, next to a recycling and general waste sign." />
+          <figcaption>Food waste left beside the lift in a Brisbane high-rise, the everyday outcome of a chute that does not work for residents. <span class="src">Photograph by Lewi Hirvela.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- RATIONALE -->
+<div class="wrap">
+  <section class="block" id="rationale">
+    <p class="phase-tag reveal">Phase 3 · Concept rationale</p>
+    <h2 class="reveal">Why it holds together</h2>
+    <div class="prose reveal">
+      <p>In Australian high-rise buildings, food waste is typically thrown down traditional chutes, leading to contamination, inefficient recycling and more landfill (Australian Bureau of Statistics, 2023). Valuable organic material that could be composted or turned into bioenergy is lost, because the chute has no way to separate or monitor what goes into it (Waste Management Review, 2023).</p>
+      <p>The proposed system adds three things to the existing chute: <strong>dual chutes</strong> for separate organic disposal; <strong>smart sensors</strong> that track bin levels and odour and feed real-time data to building managers; and <strong>resident education</strong> to support correct separation. Together they target both the efficiency problem and the behaviour problem.</p>
+      <p>The values underneath are sustainability, community responsibility and innovation. The concept aligns with Australia's National Food Waste Strategy goal of halving food waste by 2030 (Department of Climate Change, Energy, the Environment and Water, 2023), and it asks residents to take an active part rather than designing them out.</p>
+    </div>
+  </section>
+</div>
+
+<!-- VIABILITY -->
+<div class="wrap">
+  <section class="block" id="viability">
+    <p class="phase-tag reveal">Phase 3 · Viability</p>
+    <h2 class="reveal">From concept to proposition</h2>
+
+    <div class="twocol">
+      <div class="reveal prose">
+        <h3>Competitor analysis</h3>
+        <p>The current alternatives are composting-unit providers and traditional chute systems. Neither integrates with high-rise chute infrastructure to separate food waste, so contamination of the recycling stream stays high. The differentiation here is an integrated solution: on-site composting and automated sorting in one system, for a cleaner recycling stream and localised food-waste processing (SUEZ, 2023).</p>
+      </div>
+      <div class="reveal">
+        <figure class="diagram">
+          <img src="assets/competitor-render.jpg" alt="Concept render of integrated waste and composting units installed in a building service corridor." />
+          <figcaption>Concept render of the integrated units in situ. <span class="src">AI-generated concept imagery via Shapes, Inc.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <figure class="diagram reveal">
+      <img src="assets/business-model.jpg" alt="Business model canvas showing key partners, value propositions, customer segments, revenue streams and cost structure." />
+      <figcaption>Business model canvas: partners, value, segments, revenue and costs. <span class="src">Author's own.</span></figcaption>
+    </figure>
+
+    <div class="twocol">
+      <div class="reveal">
+        <figure class="diagram">
+          <img src="assets/team.jpg" alt="Team structure diagram with a project lead connected to a product designer, environmental engineer, operations manager and marketing role." />
+          <figcaption>Proposed team structure. <span class="src">Author's own.</span></figcaption>
+        </figure>
+      </div>
+      <div class="reveal">
+        <figure class="diagram">
+          <img src="assets/timeline.jpg" alt="Four-phase project timeline from research and concept through prototyping, user testing and launch." />
+          <figcaption>Indicative delivery timeline across four phases. <span class="src">Author's own.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- NEXT -->
+<div class="wrap">
+  <section class="block" id="next">
+    <div class="next reveal">
+      <span class="badge">Phase 4 · In progress</span>
+      <h2>Where this is going</h2>
+      <p class="prose">This project began in the Applied Design: Creative Entrepreneur unit at the University of Tasmania, and is becoming an ongoing line of inquiry. The next phase carries it into a Graduate Diploma in Interaction Design at the University of Queensland: primary research with residents and building managers, a working prototype of the sensor door and dual-stream opening, and testing in a real Brisbane building rather than on paper.</p>
+      <p class="prose">The throughline stays the same. A piece of shared infrastructure that everyone uses and no one has designed for is a genuine, open design problem, and that is exactly the kind worth staying with.</p>
+    </div>
+  </section>
+</div>
+
+<!-- REFERENCES -->
+<div class="wrap">
+  <section class="block" id="refs">
+    <p class="phase-tag reveal">Sources &amp; credits</p>
+    <h2 class="reveal">References</h2>
+    <div class="refs reveal">
+      <h3>Research &amp; data</h3>
+      <p>World Bank. (2018). <em>What a Waste: An updated look into the future of solid waste management.</em></p>
+      <p>United Nations Environment Programme. (2021). <em>Food Waste Index Report 2021.</em></p>
+      <p>Food and Agriculture Organization of the United Nations. (2021). <em>Food loss and waste database.</em></p>
+      <p>United Nations Environment Programme. (2022). Urban food waste increase, 2022.</p>
+      <p>Cummings, S. (2023). Aging infrastructure: challenges and solutions for waste management in residential buildings. <em>Journal of Urban Planning, 45</em>(3), 301–320.</p>
+      <p>Institute for Urban Development. (2022). Users with prams, walkers or disabilities report challenges in reaching bins: Accessibility Report UK.</p>
+      <p>Australian Bureau of Statistics. (2023). <em>Waste Management Services.</em></p>
+      <p>Waste Management Review. (2023). Emerging trends in waste management for commercial and residential properties.</p>
+      <p>Department of Climate Change, Energy, the Environment and Water. (2023). <em>National Food Waste Strategy: Halving Australia's food waste by 2030.</em></p>
+      <p>Brisbane City Council. (2023). A new world city: Brisbane City Council in focus.</p>
+
+      <h3>Precedents</h3>
+      <p>The Renewables. (2023). Automated waste collection systems (AWCS): revolutionising waste management.</p>
+      <p>Broom, D. (2019). How Seoul, South Korea reduced food waste by 95%. World Economic Forum.</p>
+      <p>SUEZ. (2023). Integrating composting solutions in urban waste management.</p>
+
+      <h3>Accessibility standards</h3>
+      <p>U.S. Department of Justice. (2010). <em>2010 ADA Standards for Accessible Design.</em></p>
+      <p>U.S. Access Board. (n.d.). Guide to the ADA accessibility standards.</p>
+      <p>Zero Waste Design Guidelines. (n.d.). Collection and urban design best practice strategies.</p>
+
+      <h3>Image credits</h3>
+      <p>Blocked-chute notice and food waste beside the lift: photographs by Lewi Hirvela (2024).</p>
+      <p>Blocked chute room: u/UnknownError90, Reddit.</p>
+      <p>Patched bin chute: A Handy Man (2022).</p>
+      <p>Integrated-units render: AI-generated concept imagery via Shapes, Inc.</p>
+      <p>RFID food-waste machines, Seoul: Wikimedia.</p>
+      <p>Sketches, business model canvas, team structure and timeline: author's own.</p>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <footer class="site">
+    <p>Rethinking the high-rise waste chute · A design research case study by Lewi Hirvela · <a href="https://trash-can.net">trash-can.net</a></p>
+  </footer>
+</div>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12});
+  if('IntersectionObserver' in window){
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+  }
+</script>
+</body>
+</html>
